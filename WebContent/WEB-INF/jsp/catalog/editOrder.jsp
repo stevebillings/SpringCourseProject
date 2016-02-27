@@ -8,11 +8,10 @@
 <body>
 	<h1>Edit Order</h1>
 	Order #: <c:out value="${order.orderId}" /> for User: <c:out value="${order.user}" /><br><br>
-	Composite Order #: <c:out value="${compositeOrder.orderId}" /> for User: <c:out value="${compositeOrder.user}" /><br><br>
 	Order items:<br><br>
-	<sf:form method="POST" modelAttribute="compositeOrder" action="completeOrder.html">
-		<sf:input path="orderId" id="order_id" name="orderId" type="hidden" value="${compositeOrder.orderId}"/>
-		<sf:input path="user" id="order_user" name="user" type="hidden" value="${compositeOrder.user}"/>
+	<sf:form method="POST" modelAttribute="order" action="completeOrder.html">
+		<sf:input path="orderId" id="order_id" name="orderId" type="hidden" value="${order.orderId}"/>
+		<sf:input path="user" id="order_user" name="user" type="hidden" value="${order.user}"/>
 		<table border="0">
 		<div>
 			<tr>
@@ -20,7 +19,7 @@
 			<td>Quantity</td>
 			</tr>
 
-			<c:forEach var="productOrder" items="${compositeOrder.productOrders}" varStatus="vs">
+			<c:forEach var="productOrder" items="${order.productOrders}" varStatus="vs">
 				<sf:input path="productOrders[${vs.index}].productOrderId" name="productOrders[${vs.index}].productOrderId" type="hidden" value="${productOrder.productOrderId}"/>
 				<tr>
 				<td><c:out value="${productOrder.product.productName}" /></td>

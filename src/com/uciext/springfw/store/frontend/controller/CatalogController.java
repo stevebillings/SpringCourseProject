@@ -20,7 +20,6 @@ import com.uciext.springfw.store.catalog.model.Catalog;
 import com.uciext.springfw.store.catalog.model.Items;
 import com.uciext.springfw.store.catalog.model.Product;
 import com.uciext.springfw.store.catalog.service.CatalogService;
-import com.uciext.springfw.store.order.model.CompositeOrder;
 import com.uciext.springfw.store.order.model.Order;
 import com.uciext.springfw.store.order.model.ProductOrder;
 import com.uciext.springfw.store.order.service.OrderService;
@@ -198,13 +197,8 @@ public class CatalogController {
 		System.out.println("*** loaded Order for ID: " + order.getOrderId());
 		model.addAttribute("order", order);
 		List<ProductOrder> productOrders = orderService.getProductOrdersByOrderId(orderId);
-
-		// TODO: Temp experiment to see if handling CompositeOrder in JSP is
-		// easier
-		CompositeOrder compositeOrder = new CompositeOrder(order, productOrders);
-
+		order.setProductOrders(productOrders);
 		model.addAttribute(order);
-		model.addAttribute(compositeOrder);
 		return new ModelAndView("catalog/editOrder");
 	}
 
@@ -212,10 +206,10 @@ public class CatalogController {
 
 	// After submitting order
 	@RequestMapping(value = "/completeOrder", method = RequestMethod.POST)
-	public String completeOrder(@ModelAttribute CompositeOrder compositeOrder, Model model) {
+	public String completeOrder(@ModelAttribute Order order, Model model) {
 		System.out.println("======= in completeOrder");
-		System.out.println("*** compositeOrder: " + compositeOrder);
-		for (ProductOrder partialProductOrder : compositeOrder.getProductOrders()) {
+		System.out.println("*** order: " + order);
+		for (ProductOrder partialProductOrder : order.getProductOrders()) {
 			System.out.println("*** productOrder: " + partialProductOrder);
 			ProductOrder fullProductOrder = orderService.getProductOrder(partialProductOrder.getProductOrderId());
 			fullProductOrder.setOrderAmount(partialProductOrder.getOrderAmount());
@@ -223,7 +217,6 @@ public class CatalogController {
 		}
 		// TODO: orderService should have a method to complete an order (and
 		// auto-generate a confirmation #)
-		Order order = compositeOrder.getOrder();
 		System.out.println("*** Before setting confirmationNumber: Order: " + order);
 		order.setConfirmNumber(999); // TODO temp
 		// TODO Set totalAmount
