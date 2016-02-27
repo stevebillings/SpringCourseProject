@@ -8,7 +8,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import com.uciext.springfw.store.catalog.model.Catalog;
 import com.uciext.springfw.store.catalog.model.Product;
 import com.uciext.springfw.store.catalog.service.CatalogService;
-import com.uciext.springfw.store.order.model.Order;
+import com.uciext.springfw.store.order.model.OrderOld;
 import com.uciext.springfw.store.order.model.ProductOrder;
 import com.uciext.springfw.store.order.service.OrderService;
 
@@ -78,7 +78,7 @@ public class StoreApp {
 		System.out.println("\n=== Testing add, edit, and get of Orders");
 
 		// Add an order
-		Order order = new Order(0, new Date(), 1, 1, "Test User");
+		OrderOld order = new OrderOld(0, new Date(), 1, 1, "Test User");
 		orderService.addOrder(order);
 
 		// Change that order
@@ -86,14 +86,14 @@ public class StoreApp {
 		orderService.editOrder(order);
 
 		// Get order by ID
-		Order orderFetchedById = orderService.getOrder(order.getOrderId());
+		OrderOld orderFetchedById = orderService.getOrder(order.getOrderId());
 		if ((orderFetchedById.getConfirmNumber() != order.getConfirmNumber()
 				|| (orderFetchedById.getTotalAmount() != order.getTotalAmount()))) {
 			System.out.println("\n=== ERROR: orderService.getOrder() returned the wrong order");
 		}
 
 		// Get all orders and verify the #
-		List<Order> orders = orderService.getOrders();
+		List<OrderOld> orders = orderService.getOrders();
 		if (orders.size() != 1) {
 			System.out
 					.println("\n=== ERROR: orderService.getOrders() returned " + orders.size() + " orders; expected 1");
@@ -101,7 +101,7 @@ public class StoreApp {
 
 		// ProductOrder
 		System.out.println("\n=== Testing add, edit, get, and delete of ProductOrders");
-		ProductOrder productOrder = new ProductOrder(0, orderFetchedById, productFetchedById, 3);
+		ProductOrder productOrder = new ProductOrder(0, orderFetchedById.getOrderId(), productFetchedById, 3);
 		productOrder = orderService.addProductOrder(productOrder);
 
 		List<ProductOrder> productOrders = orderService.getProductOrders();
@@ -140,7 +140,7 @@ public class StoreApp {
 
 		// In case we've left orders behind from previous tests, remove any
 		// left-over orders
-		for (Order orderToDelete : orders) {
+		for (OrderOld orderToDelete : orders) {
 			orderService.deleteOrder(orderToDelete);
 		}
 

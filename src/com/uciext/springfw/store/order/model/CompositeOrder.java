@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class CompositeOrder extends Order {
+public class CompositeOrder extends OrderOld {
 	private List<ProductOrder> productOrders;
 
 	public CompositeOrder() {
@@ -12,7 +12,7 @@ public class CompositeOrder extends Order {
 		productOrders = new ArrayList<>();
 	}
 
-	public CompositeOrder(Order order, List<ProductOrder> productOrders) {
+	public CompositeOrder(OrderOld order, List<ProductOrder> productOrders) {
 		super(order.getOrderId(), order.getOrderCreated(), order.getTotalAmount(), order.getConfirmNumber(),
 				order.getUser());
 		this.productOrders = productOrders;
@@ -22,9 +22,9 @@ public class CompositeOrder extends Order {
 		return productOrders;
 	}
 
-	public Order getOrder() {
+	public OrderOld getOrder() {
 		// TODO this does not seem right, but this whole class is going to go
 		// away...
-		return new Order(getOrderId(), getOrderCreated(), getTotalAmount(), getConfirmNumber(), getUser());
+		return new OrderOld(getOrderId(), getOrderCreated(), getTotalAmount(), getConfirmNumber(), getUser());
 	}
 }

@@ -21,7 +21,7 @@ import com.uciext.springfw.store.catalog.model.Items;
 import com.uciext.springfw.store.catalog.model.Product;
 import com.uciext.springfw.store.catalog.service.CatalogService;
 import com.uciext.springfw.store.order.model.CompositeOrder;
-import com.uciext.springfw.store.order.model.Order;
+import com.uciext.springfw.store.order.model.OrderOld;
 import com.uciext.springfw.store.order.model.ProductOrder;
 import com.uciext.springfw.store.order.service.OrderService;
 
@@ -170,8 +170,10 @@ public class CatalogController {
 	@RequestMapping(value = "/createOrder", method = RequestMethod.POST)
 	public String buyProducts(@ModelAttribute Items selectedProducts, Model model) {
 		System.out.println("======= in buyProducts");
-		Order order = new Order(0, new Date(), 0, 0, "Guest"); // TODO: set real
-																// user
+		OrderOld order = new OrderOld(0, new Date(), 0, 0, "Guest"); // TODO:
+																		// set
+																		// real
+		// user
 		order = orderService.addOrder(order);
 
 		for (String productIdStr : selectedProducts.getItemList()) {
@@ -180,7 +182,7 @@ public class CatalogController {
 			// TBD: Add product to order
 			System.out.println("*** Adding product w ID " + productId + " to order");
 			Product product = catalogService.getProduct(productId);
-			ProductOrder productOrder = new ProductOrder(0, order, product, 0);
+			ProductOrder productOrder = new ProductOrder(0, order.getOrderId(), product, 0);
 			orderService.addProductOrder(productOrder);
 		}
 
@@ -192,7 +194,7 @@ public class CatalogController {
 	@RequestMapping("/loadOrder")
 	public ModelAndView loadOrder(@RequestParam("orderId") int orderId, Model model) {
 		System.out.println("======= in loadOrder");
-		Order order = orderService.getOrder(orderId);
+		OrderOld order = orderService.getOrder(orderId);
 		System.out.println("*** loaded Order for ID: " + order.getOrderId());
 		model.addAttribute("order", order);
 		List<ProductOrder> productOrders = orderService.getProductOrdersByOrderId(orderId);
@@ -221,7 +223,7 @@ public class CatalogController {
 		}
 		// TODO: orderService should have a method to complete an order (and
 		// auto-generate a confirmation #)
-		Order order = compositeOrder.getOrder();
+		OrderOld order = compositeOrder.getOrder();
 		System.out.println("*** Before setting confirmationNumber: Order: " + order);
 		order.setConfirmNumber(999); // TODO temp
 		// TODO Set totalAmount

@@ -1,25 +1,21 @@
 package com.uciext.springfw.store.order.model;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
-public class Order {
+public class OrderOld {
 	private int orderId;
 	private Date orderCreated;
 	private int totalAmount;
 	private int confirmNumber;
 	private String user;
-	private List<ProductOrder> productOrders;
 
-	public Order(int orderId, Date orderCreated, int totalAmount, int confirmNumber, String user) {
+	public OrderOld(int orderId, Date orderCreated, int totalAmount, int confirmNumber, String user) {
 		super();
 		this.orderId = orderId;
 		this.orderCreated = orderCreated;
 		this.totalAmount = totalAmount;
 		this.confirmNumber = confirmNumber;
 		this.user = user;
-		productOrders = new ArrayList<>();
 	}
 
 	public int getOrderId() {
@@ -44,10 +40,6 @@ public class Order {
 
 	public String getUser() {
 		return user;
-	}
-
-	public List<ProductOrder> getProductOrders() {
-		return productOrders;
 	}
 
 	public void setOrderCreated(Date orderCreated) {

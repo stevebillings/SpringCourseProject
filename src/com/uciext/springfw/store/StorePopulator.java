@@ -8,7 +8,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import com.uciext.springfw.store.catalog.model.Catalog;
 import com.uciext.springfw.store.catalog.model.Product;
 import com.uciext.springfw.store.catalog.service.CatalogService;
-import com.uciext.springfw.store.order.model.Order;
+import com.uciext.springfw.store.order.model.OrderOld;
 import com.uciext.springfw.store.order.model.ProductOrder;
 import com.uciext.springfw.store.order.service.OrderService;
 
@@ -50,12 +50,12 @@ public class StorePopulator {
 		secondProduct = catalogService.addProduct(secondProduct);
 
 		// Add an order
-		Order order = new Order(0, new Date(), 1, 1, "Test User");
+		OrderOld order = new OrderOld(0, new Date(), 1, 1, "Test User");
 		orderService.addOrder(order);
 
 		// ProductOrder
 		System.out.println("\n=== Testing add, edit, get, and delete of ProductOrders");
-		ProductOrder productOrder = new ProductOrder(0, order, testProduct, 3);
+		ProductOrder productOrder = new ProductOrder(0, order.getOrderId(), testProduct, 3);
 		productOrder = orderService.addProductOrder(productOrder);
 
 	}

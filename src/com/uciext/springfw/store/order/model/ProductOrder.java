@@ -5,31 +5,31 @@ import com.uciext.springfw.store.catalog.model.Product;
 public class ProductOrder {
 
 	private int productOrderId;
-	private Order order;
+	private int orderId;
 	private Product product;
 	private int orderAmount;
 
 	public ProductOrder() {
 		this.productOrderId = 0;
-		this.order = null;
+		this.orderId = 0;
 		this.product = null;
 		this.orderAmount = 0;
 	}
 
-	public ProductOrder(int productOrderId, Order order, Product product, int orderAmount) {
+	public ProductOrder(int productOrderId, int orderId, Product product, int orderAmount) {
 		super();
 		this.productOrderId = productOrderId;
-		this.order = order;
+		this.orderId = orderId;
 		this.product = product;
 		this.orderAmount = orderAmount;
 	}
 
-	public Order getOrder() {
-		return order;
+	public int getOrderId() {
+		return orderId;
 	}
 
-	public void setOrder(Order order) {
-		this.order = order;
+	public void setOrderId(int orderId) {
+		this.orderId = orderId;
 	}
 
 	public Product getProduct() {
@@ -58,7 +58,7 @@ public class ProductOrder {
 
 	@Override
 	public String toString() {
-		return "ProductOrder [productOrderId=" + productOrderId + ", order=" + order + ", product=" + product
+		return "ProductOrder [productOrderId=" + productOrderId + ", orderId=" + orderId + ", product=" + product
 				+ ", orderAmount=" + orderAmount + "]";
 	}
 

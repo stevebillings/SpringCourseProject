@@ -11,7 +11,6 @@ import com.uciext.springfw.store.catalog.model.Product;
 import com.uciext.springfw.store.catalog.service.CatalogService;
 import com.uciext.springfw.store.common.Util;
 import com.uciext.springfw.store.order.dao.ProductOrderDao;
-import com.uciext.springfw.store.order.model.Order;
 import com.uciext.springfw.store.order.model.ProductOrder;
 import com.uciext.springfw.store.order.service.OrderService;
 
@@ -52,16 +51,15 @@ public class JdbcProductOrderDao implements ProductOrderDao {
 	public ProductOrder addProductOrder(ProductOrder productOrder) {
 		productOrder.setProductOrderId(Util.getRandomInt());
 		logger.info("Inserting productOrder: " + productOrder);
-		jdbcTemplate.update(SQL_INSERT_PRODUCT_ORDER, productOrder.getProductOrderId(),
-				productOrder.getOrder().getOrderId(), productOrder.getProduct().getProductId(),
-				productOrder.getOrderAmount());
+		jdbcTemplate.update(SQL_INSERT_PRODUCT_ORDER, productOrder.getProductOrderId(), productOrder.getOrderId(),
+				productOrder.getProduct().getProductId(), productOrder.getOrderAmount());
 		return productOrder;
 	}
 
 	@Override
 	public ProductOrder editProductOrder(ProductOrder productOrder) {
 		logger.info("Updating productOrder: " + productOrder);
-		jdbcTemplate.update(SQL_UPDATE_PRODUCT_ORDER, productOrder.getOrder().getOrderId(),
+		jdbcTemplate.update(SQL_UPDATE_PRODUCT_ORDER, productOrder.getOrderId(),
 				productOrder.getProduct().getProductId(), productOrder.getOrderAmount(),
 				productOrder.getProductOrderId());
 		return productOrder;
@@ -119,8 +117,7 @@ public class JdbcProductOrderDao implements ProductOrderDao {
 	// product_order_id, order_id, product_id, order_amount
 	private ProductOrder createProductOrderFromRow(Map<String, Object> row) {
 		ProductOrder productOrder = new ProductOrder(Integer.parseInt(String.valueOf(row.get("product_order_id"))),
-				(Order) orderService.getOrder((Integer) row.get("order_id")),
-				(Product) catalogService.getProduct((Integer) row.get("product_id")),
+				(Integer) row.get("order_id"), (Product) catalogService.getProduct((Integer) row.get("product_id")),
 				(Integer) row.get("order_amount"));
 		return productOrder;
 	}

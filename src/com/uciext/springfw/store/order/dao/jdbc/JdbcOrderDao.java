@@ -10,7 +10,7 @@ import org.springframework.jdbc.core.simple.SimpleJdbcTemplate;
 
 import com.uciext.springfw.store.common.Util;
 import com.uciext.springfw.store.order.dao.OrderDao;
-import com.uciext.springfw.store.order.model.Order;
+import com.uciext.springfw.store.order.model.OrderOld;
 
 public class JdbcOrderDao implements OrderDao {
 	private Logger logger = Logger.getLogger(this.getClass().getName());
@@ -30,7 +30,7 @@ public class JdbcOrderDao implements OrderDao {
 	}
 
 	@Override
-	public Order addOrder(Order order) {
+	public OrderOld addOrder(OrderOld order) {
 		order.setOrderId(Util.getRandomInt());
 		logger.info("Inserting order: " + order);
 		jdbcTemplate.update(SQL_INSERT_ORDER, order.getOrderId(), order.getOrderCreated(), order.getTotalAmount(),
@@ -39,7 +39,7 @@ public class JdbcOrderDao implements OrderDao {
 	}
 
 	@Override
-	public Order editOrder(Order order) {
+	public OrderOld editOrder(OrderOld order) {
 		logger.info("Updating order: " + order);
 		jdbcTemplate.update(SQL_UPDATE_ORDER, order.getTotalAmount(), order.getConfirmNumber(), order.getUser(),
 				order.getOrderId());
@@ -47,14 +47,14 @@ public class JdbcOrderDao implements OrderDao {
 	}
 
 	@Override
-	public List<Order> getOrders() {
+	public List<OrderOld> getOrders() {
 		logger.info("Getting orders");
 
-		List<Order> orders = new ArrayList<Order>();
+		List<OrderOld> orders = new ArrayList<OrderOld>();
 
 		List<Map<String, Object>> rows = jdbcTemplate.queryForList(SQL_GET_ALL_ORDERS);
 		for (Map<String, Object> row : rows) {
-			Order order = createOrderFromRow(row);
+			OrderOld order = createOrderFromRow(row);
 			logger.info("Fetched order: " + order);
 			orders.add(order);
 		}
@@ -63,13 +63,13 @@ public class JdbcOrderDao implements OrderDao {
 	}
 
 	@Override
-	public void deleteOrder(Order order) {
+	public void deleteOrder(OrderOld order) {
 		logger.info("Deleting order: " + order);
 		jdbcTemplate.update(SQL_DELETE_ORDER, order.getOrderId());
 	}
 
 	@Override
-	public Order getOrder(int orderId) {
+	public OrderOld getOrder(int orderId) {
 		logger.info("Getting order for ID: " + orderId);
 
 		List<Map<String, Object>> rows = jdbcTemplate.queryForList(SQL_GET_ORDER_BY_ID, orderId);
@@ -77,15 +77,15 @@ public class JdbcOrderDao implements OrderDao {
 			return null;
 		}
 		Map<String, Object> row = rows.get(0);
-		Order order = createOrderFromRow(row);
+		OrderOld order = createOrderFromRow(row);
 		logger.info("Fetched order: " + order);
 
 		return order;
 	}
 
 	// order_id, order_created, total_amount, confirm_number, user
-	private Order createOrderFromRow(Map<String, Object> row) {
-		Order order = new Order(Integer.parseInt(String.valueOf(row.get("order_id"))), (Date) row.get("order_created"),
+	private OrderOld createOrderFromRow(Map<String, Object> row) {
+		OrderOld order = new OrderOld(Integer.parseInt(String.valueOf(row.get("order_id"))), (Date) row.get("order_created"),
 				(Integer) row.get("total_amount"), (Integer) row.get("confirm_number"), (String) row.get("user"));
 		return order;
 	}
