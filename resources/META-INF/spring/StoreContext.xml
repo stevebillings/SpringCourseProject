@@ -43,6 +43,7 @@
 	
 	<bean id="orderDao" class="com.uciext.springfw.store.order.dao.jdbc.JdbcOrderDao">
 		<property name="jdbcTemplate" ref="jdbcTemplate" /> 
+		<property name="orderService" ref="orderService" />
 	</bean>
 	
 	<bean id="productOrderDao" class="com.uciext.springfw.store.order.dao.jdbc.JdbcProductOrderDao">

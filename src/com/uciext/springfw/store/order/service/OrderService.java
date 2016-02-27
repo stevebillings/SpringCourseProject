@@ -2,21 +2,21 @@ package com.uciext.springfw.store.order.service;
 
 import java.util.List;
 
-import com.uciext.springfw.store.order.model.OrderOld;
+import com.uciext.springfw.store.order.model.Order;
 import com.uciext.springfw.store.order.model.ProductOrder;
 
 public interface OrderService {
 
 	// Order
-	OrderOld addOrder(OrderOld order);
+	Order addOrder(Order order);
 
-	OrderOld editOrder(OrderOld order);
+	Order editOrder(Order order);
 
-	void deleteOrder(OrderOld order);
+	void deleteOrder(Order order);
 
-	List<OrderOld> getOrders();
+	List<Order> getOrders();
 
-	OrderOld getOrder(int orderId);
+	Order getOrder(int orderId);
 
 	// ProductOrder
 	ProductOrder addProductOrder(ProductOrder productOrder);

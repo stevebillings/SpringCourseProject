@@ -8,7 +8,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import com.uciext.springfw.store.catalog.model.Catalog;
 import com.uciext.springfw.store.catalog.model.Product;
 import com.uciext.springfw.store.catalog.service.CatalogService;
-import com.uciext.springfw.store.order.model.OrderOld;
+import com.uciext.springfw.store.order.model.Order;
 import com.uciext.springfw.store.order.model.ProductOrder;
 import com.uciext.springfw.store.order.service.OrderService;
 
@@ -64,21 +64,21 @@ public class StoreApp {
 		Product productFetchedById = catalogService.getProduct(testProduct.getProductId());
 		if (!productFetchedById.getSku().equals(testProduct.getSku())
 				|| (productFetchedById.getAvailableQuantity() != newAvailableQuantity)) {
-			System.out.println("\n=== ERROR: catalogService.getProduct() returned the wrong product");
+			System.out.println("\n\n\n=== ERROR: catalogService.getProduct() returned the wrong product");
 		}
 
 		// Get Available products; should only be one
 		System.out.println("\n=== Getting available products");
 		List<Product> availableProducts = catalogService.getAvailableProducts();
 		if (availableProducts.size() != 1) {
-			System.out.println("\n=== ERROR: catalogService.getAvailableProducts() returned " + availableProducts.size()
-					+ " products; expected 1");
+			System.out.println("\n\n\n=== ERROR: catalogService.getAvailableProducts() returned "
+					+ availableProducts.size() + " products; expected 1");
 		}
 
 		System.out.println("\n=== Testing add, edit, and get of Orders");
 
 		// Add an order
-		OrderOld order = new OrderOld(0, new Date(), 1, 1, "Test User");
+		Order order = new Order(0, new Date(), 1, 1, "Test User", null);
 		orderService.addOrder(order);
 
 		// Change that order
@@ -86,17 +86,17 @@ public class StoreApp {
 		orderService.editOrder(order);
 
 		// Get order by ID
-		OrderOld orderFetchedById = orderService.getOrder(order.getOrderId());
+		Order orderFetchedById = orderService.getOrder(order.getOrderId());
 		if ((orderFetchedById.getConfirmNumber() != order.getConfirmNumber()
 				|| (orderFetchedById.getTotalAmount() != order.getTotalAmount()))) {
-			System.out.println("\n=== ERROR: orderService.getOrder() returned the wrong order");
+			System.out.println("\n\n\n=== ERROR: orderService.getOrder() returned the wrong order");
 		}
 
 		// Get all orders and verify the #
-		List<OrderOld> orders = orderService.getOrders();
+		List<Order> orders = orderService.getOrders();
 		if (orders.size() != 1) {
-			System.out
-					.println("\n=== ERROR: orderService.getOrders() returned " + orders.size() + " orders; expected 1");
+			System.out.println(
+					"\n\n\n=== ERROR: orderService.getOrders() returned " + orders.size() + " orders; expected 1");
 		}
 
 		// ProductOrder
@@ -106,20 +106,21 @@ public class StoreApp {
 
 		List<ProductOrder> productOrders = orderService.getProductOrders();
 		if (productOrders.size() != 1) {
-			System.out.println("\n=== ERROR: orderService.getProductOrders() returned " + productOrders.size()
+			System.out.println("\n\n\n=== ERROR: orderService.getProductOrders() returned " + productOrders.size()
 					+ " productOrders; expected 1");
 		}
 
 		ProductOrder productOrderFetchedById = orderService.getProductOrder(productOrder.getProductOrderId());
 		if (productOrderFetchedById.getOrderAmount() != productOrder.getOrderAmount()) {
-			System.out.println("\n=== ERROR: orderService.getProductOrder() returned the wrong productOrder");
+			System.out.println("\n\n\n=== ERROR: orderService.getProductOrder() returned the wrong productOrder");
 		}
 
 		orderService.deleteProductOrder(productOrderFetchedById);
 		productOrders = orderService.getProductOrders();
 		if (productOrders.size() != 0) {
-			System.out.println("\n=== ERROR: orderService.deleteProductOrder() didn't leave zero productOrders; left "
-					+ orders.size());
+			System.out
+					.println("\n\n\n=== ERROR: orderService.deleteProductOrder() didn't leave zero productOrders; left "
+							+ orders.size());
 		}
 
 		// Delete all productOders, in case there were any leftover from
@@ -134,13 +135,13 @@ public class StoreApp {
 		orderService.deleteOrder(orderFetchedById);
 		orders = orderService.getOrders();
 		if (orders.size() != 0) {
-			System.out
-					.println("\n=== ERROR: orderService.deleteOrder() didn't leave zero orders; left " + orders.size());
+			System.out.println(
+					"\n\n\n=== ERROR: orderService.deleteOrder() didn't leave zero orders; left " + orders.size());
 		}
 
 		// In case we've left orders behind from previous tests, remove any
 		// left-over orders
-		for (OrderOld orderToDelete : orders) {
+		for (Order orderToDelete : orders) {
 			orderService.deleteOrder(orderToDelete);
 		}
 
@@ -148,7 +149,7 @@ public class StoreApp {
 		System.out.println("\n=== Getting and removing all products");
 		List<Product> allProducts = catalogService.getProducts();
 		if (allProducts.size() != 2) {
-			System.out.println("\n=== ERROR: Expected 2 products, but there are " + allProducts.size());
+			System.out.println("\n\n\n=== ERROR: Expected 2 products, but there are " + allProducts.size());
 		}
 		for (Product productToDelete : allProducts) {
 			catalogService.deleteProduct(productToDelete);
@@ -157,7 +158,8 @@ public class StoreApp {
 		// Make sure there are zero products
 		allProducts = catalogService.getProducts();
 		if (allProducts.size() > 0) {
-			System.out.println("\n=== ERROR: Not all products were deleted; there are " + allProducts.size() + " left");
+			System.out.println(
+					"\n\n\n=== ERROR: Not all products were deleted; there are " + allProducts.size() + " left");
 		} else {
 			System.out.println("\n=== All products have been deleted");
 		}

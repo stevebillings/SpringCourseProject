@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.uciext.springfw.store.order.dao.OrderDao;
 import com.uciext.springfw.store.order.dao.ProductOrderDao;
-import com.uciext.springfw.store.order.model.OrderOld;
+import com.uciext.springfw.store.order.model.Order;
 import com.uciext.springfw.store.order.model.ProductOrder;
 import com.uciext.springfw.store.order.service.OrderService;
 
@@ -25,31 +25,31 @@ public class OrderServiceImpl implements OrderService {
 	// Services: Order
 
 	@Override
-	public OrderOld addOrder(OrderOld order) {
+	public Order addOrder(Order order) {
 		System.out.println("--- addOrder() order=" + order);
 		return orderDao.addOrder(order);
 	}
 
 	@Override
-	public OrderOld editOrder(OrderOld order) {
+	public Order editOrder(Order order) {
 		System.out.println("--- editOrder() order=" + order);
 		return orderDao.editOrder(order);
 	}
 
 	@Override
-	public void deleteOrder(OrderOld order) {
+	public void deleteOrder(Order order) {
 		System.out.println("--- deleteOrder() order=" + order);
 		orderDao.deleteOrder(order);
 	}
 
 	@Override
-	public List<OrderOld> getOrders() {
+	public List<Order> getOrders() {
 		System.out.println("--- getOrders()");
 		return orderDao.getOrders();
 	}
 
 	@Override
-	public OrderOld getOrder(int orderId) {
+	public Order getOrder(int orderId) {
 		System.out.println("--- getOrder() orderId=" + orderId);
 		return orderDao.getOrder(orderId);
 	}

@@ -2,16 +2,16 @@ package com.uciext.springfw.store.order.dao;
 
 import java.util.List;
 
-import com.uciext.springfw.store.order.model.OrderOld;
+import com.uciext.springfw.store.order.model.Order;
 
 public interface OrderDao {
-	OrderOld addOrder(OrderOld order);
+	Order addOrder(Order order);
 
-	OrderOld editOrder(OrderOld order);
+	Order editOrder(Order order);
 
-	void deleteOrder(OrderOld order);
+	void deleteOrder(Order order);
 
-	List<OrderOld> getOrders();
+	List<Order> getOrders();
 
-	OrderOld getOrder(int orderId);
+	Order getOrder(int orderId);
 }
