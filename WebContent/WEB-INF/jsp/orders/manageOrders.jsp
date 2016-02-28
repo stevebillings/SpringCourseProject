@@ -8,18 +8,17 @@
 <body>
 	<h1>Manage Orders</h1>
 	Orders:<br><br>
-	<sf:form method="POST" commandName="selectedOrders" action="delete.html">
+
 		<table border="0">
 		<tr>
-			<td></td>
 			<td>Order #</td>
 			<td>Date</td>
 			<td>Confirmation #</td>
+			<td>Action</td>
 		</tr>
 
 			<c:forEach var="order" items="${orderList}">
 				<tr>
-				<td><sf:checkbox path="itemList" value="${order.orderId}" /></td>
 				<td>
 					<a href="view.html?orderId=${order.orderId}">
 						<c:out value="${order.orderId}" />
@@ -27,13 +26,18 @@
 				</td>
 				<td><c:out value="${order.orderCreated}" /></td>
 				<td><c:out value="${order.confirmNumber}" /></td>
+				<td>
+					<c:if test="${order.confirmNumber == 0}">
+						<a href="../catalog/loadOrder.html?orderId=${order.orderId}">Edit</a>
+					</c:if>
+					<c:if test="${order.confirmNumber != 0}">
+						<a href="viewOrder.html?orderId=${order.orderId}">View</a>
+					</c:if>
+				</td>
 				</tr>
 			</c:forEach>
 
 		</table>
-		<br>
- 		<input type="submit" value="Delete" />
-	</sf:form>
 	<br><br>
 	<a href="../catalog/shop.html">Shop</a>
 </body>

@@ -195,7 +195,7 @@ public class CatalogController {
 	public ModelAndView loadOrder(@RequestParam("orderId") int orderId, Model model) {
 		System.out.println("======= in loadOrder");
 		Order order = orderService.getOrder(orderId);
-		System.out.println("*** loaded Order for ID: " + order.getOrderId());
+		System.out.println("loaded Order for ID: " + order.getOrderId());
 		model.addAttribute("order", order);
 		List<ProductOrder> productOrders = orderService.getProductOrdersByOrderId(orderId);
 		order.setProductOrders(productOrders);
