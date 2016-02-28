@@ -80,7 +80,7 @@ public class CatalogController {
 	@RequestMapping(value = "/add", method = RequestMethod.GET)
 	public String addProduct(Model model) {
 		System.out.println("======= in addProduct");
-		model.addAttribute(new Product(0, getCatalog(), "", "", 0, ""));
+		model.addAttribute(new Product(0, getCatalog().getCatalogId(), "", "", 0, ""));
 		return "catalog/addProduct";
 	}
 
@@ -92,7 +92,7 @@ public class CatalogController {
 			return "catalog/addProduct";
 		}
 		System.out.println("Got product: " + product);
-		product.setCatalog(getCatalog());
+		product.setCatalogId(getCatalog().getCatalogId());
 		catalogService.addProduct(product);
 		return "redirect:/catalog/admin.html";
 	}

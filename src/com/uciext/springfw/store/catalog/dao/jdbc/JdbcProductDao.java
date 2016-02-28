@@ -9,7 +9,6 @@ import org.springframework.jdbc.core.simple.SimpleJdbcTemplate;
 
 import com.uciext.springfw.store.catalog.dao.ProductDao;
 import com.uciext.springfw.store.catalog.model.Product;
-import com.uciext.springfw.store.catalog.service.CatalogService;
 import com.uciext.springfw.store.common.Util;
 
 public class JdbcProductDao implements ProductDao {
@@ -29,12 +28,6 @@ public class JdbcProductDao implements ProductDao {
 		this.jdbcTemplate = jdbcTemplate;
 	}
 
-	// Spring-wired catalogService for populating Catalog objects
-	private CatalogService catalogService;
-
-	public void setCatalogService(CatalogService catalogService) {
-		this.catalogService = catalogService;
-	}
 	// =================================================
 	// DB methods
 
@@ -42,8 +35,8 @@ public class JdbcProductDao implements ProductDao {
 	public Product addProduct(Product product) {
 		product.setProductId(Util.getRandomInt());
 		logger.info("Inserting product: " + product);
-		jdbcTemplate.update(SQL_INSERT_PRODUCT, product.getProductId(), product.getCatalog().getCatalogId(),
-				product.getSku(), product.getProductName(), product.getAvailableQuantity(), product.getUom());
+		jdbcTemplate.update(SQL_INSERT_PRODUCT, product.getProductId(), product.getCatalogId(), product.getSku(),
+				product.getProductName(), product.getAvailableQuantity(), product.getUom());
 		return product;
 	}
 
@@ -127,8 +120,8 @@ public class JdbcProductDao implements ProductDao {
 
 	private Product createProductFromRow(Map<String, Object> row) {
 		Product product = new Product(Integer.parseInt(String.valueOf(row.get("product_id"))),
-				catalogService.getCatalog((Integer) row.get("catalog_id")), (String) row.get("sku"),
-				getProductNameFromRow(row), getAvailableQuantityFromRow(row), (String) row.get("uom"));
+				(Integer) row.get("catalog_id"), (String) row.get("sku"), getProductNameFromRow(row),
+				getAvailableQuantityFromRow(row), (String) row.get("uom"));
 		return product;
 	}
 

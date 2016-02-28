@@ -4,7 +4,7 @@ import javax.validation.constraints.Size;
 
 public class Product {
 	private int productId;
-	private Catalog catalog;
+	private int catalogId;
 	@Size(min = 4, max = 20, message = "SKU must be between 4 and 20 characters long.")
 	private String sku;
 	@Size(min = 1, max = 20, message = "Product name must be between 1 and 20 characters long.")
@@ -15,16 +15,16 @@ public class Product {
 
 	public Product() {
 		this.productId = 0;
-		this.catalog = null;
+		this.catalogId = 0;
 		this.sku = "<not set>";
 		this.productName = "<not set>";
 		this.availableQuantity = 0;
 		this.uom = "<not set>";
 	}
 
-	public Product(int productId, Catalog catalog, String sku, String productName, int availableQuantity, String uom) {
+	public Product(int productId, int catalogId, String sku, String productName, int availableQuantity, String uom) {
 		this.productId = productId;
-		this.catalog = catalog;
+		this.catalogId = catalogId;
 		this.sku = sku;
 		this.productName = productName;
 		this.availableQuantity = availableQuantity;
@@ -39,12 +39,12 @@ public class Product {
 		this.productId = productId;
 	}
 
-	public Catalog getCatalog() {
-		return catalog;
+	public int getCatalogId() {
+		return catalogId;
 	}
 
-	public void setCatalog(Catalog catalog) {
-		this.catalog = catalog;
+	public void setCatalogId(int catalogId) {
+		this.catalogId = catalogId;
 	}
 
 	public String getSku() {
@@ -81,7 +81,7 @@ public class Product {
 
 	@Override
 	public String toString() {
-		return "Product [productId=" + productId + ", catalog=" + catalog + ", sku=" + sku + ", productName="
+		return "Product [productId=" + productId + ", catalogId=" + catalogId + ", sku=" + sku + ", productName="
 				+ productName + ", availableQuantity=" + availableQuantity + ", uom=" + uom + "]";
 	}
 

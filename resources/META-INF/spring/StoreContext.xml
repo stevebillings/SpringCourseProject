@@ -39,7 +39,6 @@
 
 	<bean id="productDao" class="com.uciext.springfw.store.catalog.dao.jdbc.JdbcProductDao">
 		<property name="jdbcTemplate" ref="jdbcTemplate" /> 
-		<property name="catalogService" ref="catalogService" />
 	</bean>
 	
 	<bean id="orderDao" class="com.uciext.springfw.store.order.dao.jdbc.JdbcOrderDao">

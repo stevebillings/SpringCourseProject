@@ -40,13 +40,13 @@ public class StorePopulator {
 
 		// Add the product we'll use to test editProduct
 		String originalProductName = "Test Product";
-		Product testProduct = new Product(0, catalog, "1001", originalProductName, 1, "items");
+		Product testProduct = new Product(0, catalog.getCatalogId(), "1001", originalProductName, 1, "items");
 		// productId is populated in the product that addProduct() returns
 		testProduct = catalogService.addProduct(testProduct);
 		System.out.println("\n=== catalogService.addProduct() returned: " + testProduct);
 
 		// Add a second product, which we'll mostly ignore
-		Product secondProduct = new Product(0, catalog, "1002", "Ignored Product", 2, "items");
+		Product secondProduct = new Product(0, catalog.getCatalogId(), "1002", "Ignored Product", 2, "items");
 		secondProduct = catalogService.addProduct(secondProduct);
 
 		// Add an order
