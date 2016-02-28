@@ -8,7 +8,7 @@
 <body>
 	<h1>Shop</h1>
 	Products:
-	<sf:form method="POST" commandName="selectedProducts" action="createOrder.html">
+	<sf:form method="POST" commandName="selectedProducts" action="../orders/createOrder.html">
 		<div>
 			<c:forEach var="product" items="${productList}">
 				<sf:checkbox path="itemList" value="${product.productId}" />
