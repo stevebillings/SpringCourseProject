@@ -212,10 +212,10 @@ public class CatalogController {
 		System.out.println("*** order: " + order);
 		List<ProductOrder> fullProductOrders = new ArrayList<>(order.getProductOrders().size());
 		for (ProductOrder partialProductOrder : order.getProductOrders()) {
-			System.out.println("*** productOrder: " + partialProductOrder);
+			System.out.println("Order form productOrder: " + partialProductOrder);
 			ProductOrder fullProductOrder = orderService.getProductOrder(partialProductOrder.getProductOrderId());
 			fullProductOrder.setOrderAmount(partialProductOrder.getOrderAmount());
-			System.out.println(">>> updated product order: " + fullProductOrder);
+			System.out.println("Full product order: " + fullProductOrder);
 			orderService.editProductOrder(fullProductOrder);
 			fullProductOrders.add(fullProductOrder);
 		}
