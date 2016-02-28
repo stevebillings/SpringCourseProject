@@ -21,7 +21,11 @@
 				<tr>
 				<td><c:out value="${order.orderId}" /></td>
 				<td><c:out value="${order.orderCreated}" /></td>
-				<td><c:out value="${order.confirmNumber}" /></td>
+				<td>
+					<c:if test="${order.confirmNumber != 0}">
+						<c:out value="${order.confirmNumber}" />
+					</c:if>
+				</td>
 				<td>
 					<c:if test="${order.confirmNumber == 0}">
 						<a href="../orders/loadOrder.html?orderId=${order.orderId}">Edit</a>

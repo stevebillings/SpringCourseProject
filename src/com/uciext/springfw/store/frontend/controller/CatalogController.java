@@ -20,7 +20,6 @@ import com.uciext.springfw.store.catalog.model.Items;
 import com.uciext.springfw.store.catalog.model.Product;
 import com.uciext.springfw.store.catalog.service.CatalogService;
 import com.uciext.springfw.store.order.model.Order;
-import com.uciext.springfw.store.order.service.OrderService;
 
 @Controller
 @RequestMapping("/catalog")
@@ -39,13 +38,6 @@ public class CatalogController {
 		this.defaultCatalog = defaultCatalog;
 	}
 
-	// orderService is only used for buyer operations
-	private OrderService orderService;
-
-	@Inject
-	public void setOrderService(OrderService orderService) {
-		this.orderService = orderService;
-	}
 	// ===================================================
 	// ===================== Admin =======================
 	// ===================================================
