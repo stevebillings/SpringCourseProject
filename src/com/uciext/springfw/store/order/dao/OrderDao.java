@@ -14,4 +14,9 @@ public interface OrderDao {
 	List<Order> getOrders();
 
 	Order getOrder(int orderId);
+
+	/**
+	 * Complete the order and return the confirmation #
+	 */
+	int completeOrder(int orderId);
 }

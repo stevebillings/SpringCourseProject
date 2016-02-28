@@ -5,7 +5,8 @@
     <title>Order Confirmation</title>
 </head>
 <body>
-    Order Confirmation for Order ID: <c:out value="${order.orderId}" />
+    Order Confirmation for Order ID: <c:out value="${order.orderId}" /><br>
+    Confirmation Number: <c:out value="${order.confirmNumber}" />
 <br><br>
 <table border="0">
 	<tr>

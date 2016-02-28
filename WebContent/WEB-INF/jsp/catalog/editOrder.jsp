@@ -18,6 +18,7 @@
 			<td>Product</td>
 			<td>Quantity</td>
 			<td>Unit of Measure</td>
+			<td># available</td>
 			</tr>
 
 			<c:forEach var="productOrder" items="${order.productOrders}" varStatus="vs">
@@ -29,6 +30,7 @@
         			<sf:errors path="productOrders[${vs.index}].orderAmount" cssClass="error" /> 
 				</td>
 				<td><c:out value="${productOrder.product.uom}" /></td>
+				<td><c:out value="${productOrder.product.availableQuantity}" /></td>
 				</tr>
 			</c:forEach>
 		</div>

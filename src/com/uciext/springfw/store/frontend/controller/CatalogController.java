@@ -209,25 +209,50 @@ public class CatalogController {
 	@RequestMapping(value = "/completeOrder", method = RequestMethod.POST)
 	public ModelAndView completeOrder(@ModelAttribute Order order, Model model) {
 		System.out.println("======= in completeOrder");
-		System.out.println("*** order: " + order);
-		List<ProductOrder> fullProductOrders = new ArrayList<>(order.getProductOrders().size());
-		for (ProductOrder partialProductOrder : order.getProductOrders()) {
-			System.out.println("Order form productOrder: " + partialProductOrder);
-			ProductOrder fullProductOrder = orderService.getProductOrder(partialProductOrder.getProductOrderId());
-			fullProductOrder.setOrderAmount(partialProductOrder.getOrderAmount());
-			System.out.println("Full product order: " + fullProductOrder);
-			orderService.editProductOrder(fullProductOrder);
-			fullProductOrders.add(fullProductOrder);
-		}
-		order.setProductOrders(fullProductOrders);
-		// TODO: orderService should have a method to complete an order (and
-		// auto-generate a confirmation #)
-		System.out.println("*** Before setting confirmationNumber: Order: " + order);
-		order.setConfirmNumber(999); // TODO temp
-		// TODO Set totalAmount
-		orderService.editOrder(order);
+		System.out.println("Order: " + order);
+		setOrderQuantities(order); // Update order Qtys in DB based on form
+									// input
+		System.out.println("Order after adjusting quantities: " + order);
+		orderService.completeOrder(order.getOrderId());
+		order = orderService.getOrder(order.getOrderId()); // Read from DB to be
+															// sure
 		model.addAttribute(order);
 		return new ModelAndView("catalog/orderConfirmation");
+	}
+
+	/**
+	 * Set order and productOrder quantities in DB based on input from form
+	 * 
+	 * @param order
+	 */
+	private void setOrderQuantities(Order order) {
+		int totalQuantity = 0;
+		List<ProductOrder> fullProductOrders = new ArrayList<>(order.getProductOrders().size());
+		for (ProductOrder partialProductOrderFromForm : order.getProductOrders()) {
+			System.out.println("Order form productOrder: " + partialProductOrderFromForm);
+			ProductOrder fullProductOrderFromDb = orderService
+					.getProductOrder(partialProductOrderFromForm.getProductOrderId());
+			int productOrderAmount = getAdjustedProductOrderQty(partialProductOrderFromForm, fullProductOrderFromDb);
+			fullProductOrderFromDb.setOrderAmount(productOrderAmount);
+			totalQuantity += productOrderAmount;
+			System.out.println("Full product order: " + fullProductOrderFromDb);
+			orderService.editProductOrder(fullProductOrderFromDb);
+			fullProductOrders.add(fullProductOrderFromDb);
+		}
+		order.setProductOrders(fullProductOrders);
+		order.setTotalAmount(totalQuantity);
+	}
+
+	/**
+	 * Limit order to what's actually available
+	 */
+	private int getAdjustedProductOrderQty(ProductOrder partialProductOrderFromForm,
+			ProductOrder fullProductOrderFromDb) {
+		int productOrderAmount = partialProductOrderFromForm.getOrderAmount();
+		if (productOrderAmount > fullProductOrderFromDb.getProduct().getAvailableQuantity()) {
+			productOrderAmount = fullProductOrderFromDb.getProduct().getAvailableQuantity();
+		}
+		return productOrderAmount;
 	}
 
 	// VIEW LIST OF AVAILABLE PRODUCTS

@@ -20,6 +20,7 @@ public class JdbcOrderDao implements OrderDao {
 	// SQL statements
 	private static final String SQL_INSERT_ORDER = "INSERT INTO orders (order_id, order_created, total_amount, confirm_number, user) VALUES (?, ?, ?, ?, ?)";
 	private static final String SQL_UPDATE_ORDER = "update orders set total_amount=?,confirm_number=?,user=? where order_id=?";
+	private static final String SQL_COMPLETE_ORDER = "update orders set confirm_number=? where order_id=?";
 	private static final String SQL_DELETE_ORDER = "delete from orders where order_id = ?";
 	private static final String SQL_GET_ALL_ORDERS = "select * from orders";
 	private static final String SQL_GET_ORDER_BY_ID = "select * from orders where order_id = ?";
@@ -92,6 +93,18 @@ public class JdbcOrderDao implements OrderDao {
 		return order;
 	}
 
+	/**
+	 * Complete the order and return the confirmation #
+	 */
+	@Override
+	public int completeOrder(int orderId) {
+		logger.info("Completing order with ID: " + orderId);
+		int confirmationNumber = Util.getRandomInt();
+		jdbcTemplate.update(SQL_COMPLETE_ORDER, confirmationNumber, orderId);
+
+		return confirmationNumber;
+	}
+
 	// order_id, order_created, total_amount, confirm_number, user
 	private Order createOrderFromRow(Map<String, Object> row) {
 		List<ProductOrder> productOrders = orderService.getProductOrdersByOrderId((Integer) row.get("order_id")); // get
@@ -100,4 +113,5 @@ public class JdbcOrderDao implements OrderDao {
 				productOrders);
 		return order;
 	}
+
 }

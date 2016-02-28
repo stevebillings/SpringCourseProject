@@ -2,6 +2,8 @@ package com.uciext.springfw.store.order.service.impl;
 
 import java.util.List;
 
+import com.uciext.springfw.store.catalog.model.Product;
+import com.uciext.springfw.store.catalog.service.CatalogService;
 import com.uciext.springfw.store.order.dao.OrderDao;
 import com.uciext.springfw.store.order.dao.ProductOrderDao;
 import com.uciext.springfw.store.order.model.Order;
@@ -9,6 +11,13 @@ import com.uciext.springfw.store.order.model.ProductOrder;
 import com.uciext.springfw.store.order.service.OrderService;
 
 public class OrderServiceImpl implements OrderService {
+	// Catalog service (wired)
+	private CatalogService catalogService;
+
+	public void setCatalogService(CatalogService catalogService) {
+		this.catalogService = catalogService;
+	}
+
 	// DAO objects (wired)
 	private OrderDao orderDao;
 
@@ -54,6 +63,22 @@ public class OrderServiceImpl implements OrderService {
 		return orderDao.getOrder(orderId);
 	}
 
+	/**
+	 * Complete the order and return the confirmation # This includes deducting
+	 * order quantities from available quantities.
+	 */
+	@Override
+	public int completeOrder(int orderId) {
+		Order order = orderDao.getOrder(orderId);
+		for (ProductOrder productOrder : order.getProductOrders()) {
+			Product product = productOrder.getProduct();
+			int newQuantity = product.getAvailableQuantity() - productOrder.getOrderAmount();
+			product.setAvailableQuantity(newQuantity);
+			catalogService.editProduct(product);
+		}
+		return orderDao.completeOrder(orderId);
+	}
+
 	// Services: ProductOrder
 
 	@Override
@@ -91,4 +116,5 @@ public class OrderServiceImpl implements OrderService {
 		System.out.println("--- getProductOrder() productOrderId=" + productOrderId);
 		return productOrderDao.getProductOrder(productOrderId);
 	}
+
 }

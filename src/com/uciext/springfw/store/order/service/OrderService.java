@@ -18,6 +18,11 @@ public interface OrderService {
 
 	Order getOrder(int orderId);
 
+	/**
+	 * Complete the order and return the confirmation #
+	 */
+	int completeOrder(int orderId);
+
 	// ProductOrder
 	ProductOrder addProductOrder(ProductOrder productOrder);
 

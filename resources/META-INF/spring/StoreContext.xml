@@ -21,6 +21,7 @@
   	
   	<bean id="orderService" scope="singleton"
     	class="com.uciext.springfw.store.order.service.impl.OrderServiceImpl">
+    	<property name="catalogService" ref="catalogService" />
 		<property name="orderDao" ref="orderDao" />
 		<property name="productOrderDao" ref="productOrderDao" />
   	</bean>
