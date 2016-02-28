@@ -28,8 +28,9 @@
 			</c:forEach>
 		</div>
 		</table>
-		<br>
-
+		<br><br>
+	<a href="../catalog/shop.html">Shop</a><br>
+	<a href="../orders/manageOrders.html">Manage Orders</a>
 
 
 </body>

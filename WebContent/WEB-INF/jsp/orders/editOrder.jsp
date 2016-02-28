@@ -36,7 +36,8 @@
 		</div>
 		</table>
 		<br>
- 		<input type="submit" value="Complete Order" />
+ 		<input type="submit" name="complete" value="Complete Order" /><br>
+ 		<input type="submit" name="save" value="Save for later" />
 	</sf:form>
 
 </body>

@@ -9,18 +9,26 @@
 	<h1>Shop</h1>
 	Products:
 	<sf:form method="POST" commandName="selectedProducts" action="../orders/createOrder.html">
-		<div>
+		<table>
+		<tr>
+		<td></td>
+		<td>Product Name</td>
+		<td>SKU</td>
+		<td>Unit of Measure</td>
+		</tr>
 			<c:forEach var="product" items="${productList}">
-				<sf:checkbox path="itemList" value="${product.productId}" />
-				<a href="view.html?productId=${product.productId}">
-					<c:out value="${product.productName}" />
-				</a>
-				<br>
+				<tr>
+				<td><sf:checkbox path="itemList" value="${product.productId}" /></td>
+				<td><c:out value="${product.productName}" /></td>
+				<td><c:out value="${product.sku}" /></td>
+				<td><c:out value="${product.uom}" /></td>
+				</tr>
 			</c:forEach>
-		</div>
+		</table>
 		<br>
  		<input type="submit" value="Order" />
 	</sf:form>
-
+	<br><br>
+	<a href="../orders/manageOrders.html">Manage Orders</a>
 </body>
 </html>

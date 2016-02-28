@@ -104,7 +104,7 @@ public class OrderController {
 	// COMPLETE ORDER
 
 	// After submitting order
-	@RequestMapping(value = "/completeOrder", method = RequestMethod.POST)
+	@RequestMapping(params = "complete", value = "/completeOrder", method = RequestMethod.POST)
 	public ModelAndView completeOrder(@ModelAttribute Order order, Model model) {
 		System.out.println("======= in completeOrder");
 		System.out.println("Order: " + order);
@@ -116,6 +116,20 @@ public class OrderController {
 															// sure
 		model.addAttribute(order);
 		return new ModelAndView("orders/orderConfirmation");
+	}
+
+	// SAVE ORDER FOR LATER
+
+	// After submitting order
+	@RequestMapping(params = "save", value = "/completeOrder", method = RequestMethod.POST)
+	public String saveOrder(@ModelAttribute Order order, Model model) {
+		System.out.println("======= in saveOrder");
+		System.out.println("Order: " + order);
+		setOrderQuantities(order); // Update order Qtys in DB based on form
+									// input
+		System.out.println("Order after adjusting quantities: " + order);
+
+		return "redirect:/catalog/shop.html";
 	}
 
 	/**

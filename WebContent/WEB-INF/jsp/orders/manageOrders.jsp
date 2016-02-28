@@ -19,16 +19,12 @@
 
 			<c:forEach var="order" items="${orderList}">
 				<tr>
-				<td>
-					<a href="view.html?orderId=${order.orderId}">
-						<c:out value="${order.orderId}" />
-					</a>
-				</td>
+				<td><c:out value="${order.orderId}" /></td>
 				<td><c:out value="${order.orderCreated}" /></td>
 				<td><c:out value="${order.confirmNumber}" /></td>
 				<td>
 					<c:if test="${order.confirmNumber == 0}">
-						<a href="../catalog/loadOrder.html?orderId=${order.orderId}">Edit</a>
+						<a href="../orders/loadOrder.html?orderId=${order.orderId}">Edit</a>
 					</c:if>
 					<c:if test="${order.confirmNumber != 0}">
 						<a href="viewOrder.html?orderId=${order.orderId}">View</a>
