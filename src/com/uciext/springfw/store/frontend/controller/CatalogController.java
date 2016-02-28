@@ -1,5 +1,6 @@
 package com.uciext.springfw.store.frontend.controller;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -206,22 +207,36 @@ public class CatalogController {
 
 	// After submitting order
 	@RequestMapping(value = "/completeOrder", method = RequestMethod.POST)
-	public String completeOrder(@ModelAttribute Order order, Model model) {
+	public ModelAndView completeOrder(@ModelAttribute Order order, Model model) {
 		System.out.println("======= in completeOrder");
 		System.out.println("*** order: " + order);
+		List<ProductOrder> fullProductOrders = new ArrayList<>(order.getProductOrders().size());
 		for (ProductOrder partialProductOrder : order.getProductOrders()) {
 			System.out.println("*** productOrder: " + partialProductOrder);
 			ProductOrder fullProductOrder = orderService.getProductOrder(partialProductOrder.getProductOrderId());
 			fullProductOrder.setOrderAmount(partialProductOrder.getOrderAmount());
+			System.out.println(">>> updated product order: " + fullProductOrder);
 			orderService.editProductOrder(fullProductOrder);
+			fullProductOrders.add(fullProductOrder);
 		}
+		order.setProductOrders(fullProductOrders);
 		// TODO: orderService should have a method to complete an order (and
 		// auto-generate a confirmation #)
 		System.out.println("*** Before setting confirmationNumber: Order: " + order);
 		order.setConfirmNumber(999); // TODO temp
 		// TODO Set totalAmount
 		orderService.editOrder(order);
-		return "redirect:/catalog/shop.html";
+		model.addAttribute(order);
+		return new ModelAndView("catalog/orderConfirmation");
+	}
+
+	// VIEW LIST OF AVAILABLE PRODUCTS
+
+	@RequestMapping("/orderConfirmation")
+	public ModelAndView orderConfirmation(@ModelAttribute Order order, Model model) {
+		System.out.println("======= in orderConfirmation: Order" + order);
+		model.addAttribute("order", order);
+		return new ModelAndView("catalog/buyerHome");
 	}
 
 }

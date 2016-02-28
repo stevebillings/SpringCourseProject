@@ -92,7 +92,7 @@ public class Order {
 	@Override
 	public String toString() {
 		return "Order [orderId=" + orderId + ", orderCreated=" + orderCreated + ", totalAmount=" + totalAmount
-				+ ", confirmNumber=" + confirmNumber + ", user=" + user + "]";
+				+ ", confirmNumber=" + confirmNumber + ", user=" + user + ", productOrders=" + productOrders + "]";
 	}
 
 }
