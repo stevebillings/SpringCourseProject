@@ -37,6 +37,6 @@
 	<br>
 	<a href="add.html">Add New</a>
 	<br><br>
-	<a href="../catalog/shop.html">Shop</a>
+	<a href="../buyer/shop.html">Shop</a>
 </body>
 </html>

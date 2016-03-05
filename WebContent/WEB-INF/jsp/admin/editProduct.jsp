@@ -48,7 +48,7 @@
 </sf:form>
 
 <br>
-<a href="../list.html">Cancel</a>
+<a href="../admin.html">Cancel</a>
 <br><br>
 
 </body>

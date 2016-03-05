@@ -29,8 +29,8 @@
 		</div>
 		</table>
 		<br><br>
-	<a href="../catalog/shop.html">Shop</a><br>
-	<a href="../orders/manageOrders.html">Manage Orders</a>
+	<a href="../buyer/shop.html">Shop</a><br>
+	<a href="../buyer/manageOrders.html">Manage Orders</a>
 
 
 </body>

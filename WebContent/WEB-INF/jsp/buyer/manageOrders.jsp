@@ -28,7 +28,7 @@
 				</td>
 				<td>
 					<c:if test="${order.confirmNumber == 0}">
-						<a href="../orders/loadOrder.html?orderId=${order.orderId}">Edit</a>
+						<a href="../buyer/loadOrder.html?orderId=${order.orderId}">Edit</a>
 					</c:if>
 					<c:if test="${order.confirmNumber != 0}">
 						<a href="viewOrder.html?orderId=${order.orderId}">View</a>
@@ -39,6 +39,6 @@
 
 		</table>
 	<br><br>
-	<a href="../catalog/shop.html">Shop</a>
+	<a href="../buyer/shop.html">Shop</a>
 </body>
 </html>

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.uciext.springfw.store.catalog.model.Catalog;
 import com.uciext.springfw.store.catalog.model.Items;
 import com.uciext.springfw.store.catalog.model.Product;
 import com.uciext.springfw.store.catalog.service.CatalogService;
@@ -22,8 +23,15 @@ import com.uciext.springfw.store.order.model.ProductOrder;
 import com.uciext.springfw.store.order.service.OrderService;
 
 @Controller
-@RequestMapping("/orders")
-public class OrderController {
+@RequestMapping("/buyer")
+public class BuyerController {
+	private CatalogService catalogService;
+
+	@Inject
+	public void setCatalogService(CatalogService catalogService) {
+		this.catalogService = catalogService;
+	}
+
 	private OrderService orderService;
 
 	@Inject
@@ -31,12 +39,40 @@ public class OrderController {
 		this.orderService = orderService;
 	}
 
-	private CatalogService catalogService;
+	private Catalog defaultCatalog;
 
 	@Inject
-	public void setCatalogService(CatalogService catalogService) {
-		this.catalogService = catalogService;
+	public void setDefaultCatalog(Catalog defaultCatalog) {
+		this.defaultCatalog = defaultCatalog;
 	}
+
+	// ===================================================
+	// ===================== Buyer: Shopping =============
+	// ===================================================
+
+	// VIEW LIST OF AVAILABLE PRODUCTS
+
+	@RequestMapping("/shop")
+	public ModelAndView buyerHome(Model model) {
+		System.out.println("======= in buyerHome");
+		List<Product> productList = catalogService.getAvailableProducts();
+		model.addAttribute("productList", productList);
+		model.addAttribute("selectedProducts", new Items());
+		return new ModelAndView("buyer/buyerHome");
+	}
+
+	// VIEW LIST OF AVAILABLE PRODUCTS
+
+	@RequestMapping("/orderConfirmation")
+	public ModelAndView orderConfirmation(@ModelAttribute Order order, Model model) {
+		System.out.println("======= in orderConfirmation: Order" + order);
+		model.addAttribute("order", order);
+		return new ModelAndView("buyer/buyerHome");
+	}
+
+	// ===================================================
+	// ===================== Buyer: Management ===========
+	// ===================================================
 
 	// VIEW LIST OF ORDERS
 
@@ -45,7 +81,7 @@ public class OrderController {
 		System.out.println("======= in manageOrders");
 		List<Order> orderList = orderService.getOrders();
 		model.addAttribute("orderList", orderList);
-		return new ModelAndView("orders/manageOrders");
+		return new ModelAndView("buyer/manageOrders");
 	}
 
 	// VIEW ORDER
@@ -59,7 +95,7 @@ public class OrderController {
 		List<ProductOrder> productOrders = orderService.getProductOrdersByOrderId(orderId);
 		order.setProductOrders(productOrders);
 		model.addAttribute(order);
-		return new ModelAndView("orders/viewOrder");
+		return new ModelAndView("buyer/viewOrder");
 	}
 
 	// CREATE ORDER
@@ -77,14 +113,14 @@ public class OrderController {
 		for (String productIdStr : selectedProducts.getItemList()) {
 			System.out.println("buy product id=" + productIdStr);
 			int productId = Integer.parseInt(productIdStr);
-			// TBD: Add product to order
+			// Add product to order
 			System.out.println("*** Adding product w ID " + productId + " to order");
 			Product product = catalogService.getProduct(productId);
 			ProductOrder productOrder = new ProductOrder(0, order.getOrderId(), product, 0);
 			orderService.addProductOrder(productOrder);
 		}
 
-		return "redirect:/orders/loadOrder.html?orderId=" + order.getOrderId();
+		return "redirect:/buyer/loadOrder.html?orderId=" + order.getOrderId();
 	}
 
 	// LOAD ORDER
@@ -98,7 +134,7 @@ public class OrderController {
 		List<ProductOrder> productOrders = orderService.getProductOrdersByOrderId(orderId);
 		order.setProductOrders(productOrders);
 		model.addAttribute(order);
-		return new ModelAndView("orders/editOrder");
+		return new ModelAndView("buyer/editOrder");
 	}
 
 	// COMPLETE ORDER
@@ -115,7 +151,7 @@ public class OrderController {
 		order = orderService.getOrder(order.getOrderId()); // Read from DB to be
 															// sure
 		model.addAttribute(order);
-		return new ModelAndView("orders/orderConfirmation");
+		return new ModelAndView("buyer/orderConfirmation");
 	}
 
 	// SAVE ORDER FOR LATER
@@ -129,7 +165,7 @@ public class OrderController {
 									// input
 		System.out.println("Order after adjusting quantities: " + order);
 
-		return "redirect:/catalog/shop.html";
+		return "redirect:/buyer/shop.html";
 	}
 
 	/**
@@ -166,4 +202,5 @@ public class OrderController {
 		}
 		return productOrderAmount;
 	}
+
 }

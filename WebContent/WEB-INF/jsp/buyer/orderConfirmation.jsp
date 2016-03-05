@@ -24,7 +24,7 @@
 	
 </table>
 <br>
-<a href="../catalog/shop.html">Shop</a>
+<a href="../buyer/shop.html">Shop</a>
 <br><br>
 
 </body>

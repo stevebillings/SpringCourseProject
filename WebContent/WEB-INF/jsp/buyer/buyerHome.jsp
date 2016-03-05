@@ -8,7 +8,7 @@
 <body>
 	<h1>Shop</h1>
 	Products:
-	<sf:form method="POST" commandName="selectedProducts" action="../orders/createOrder.html">
+	<sf:form method="POST" commandName="selectedProducts" action="../buyer/createOrder.html">
 		<table>
 		<tr>
 		<td></td>
@@ -29,6 +29,6 @@
  		<input type="submit" value="Order" />
 	</sf:form>
 	<br><br>
-	<a href="../orders/manageOrders.html">Manage Orders</a>
+	<a href="../buyer/manageOrders.html">Manage Orders</a>
 </body>
 </html>

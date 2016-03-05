@@ -19,11 +19,11 @@ import com.uciext.springfw.store.catalog.model.Catalog;
 import com.uciext.springfw.store.catalog.model.Items;
 import com.uciext.springfw.store.catalog.model.Product;
 import com.uciext.springfw.store.catalog.service.CatalogService;
-import com.uciext.springfw.store.order.model.Order;
 
 @Controller
-@RequestMapping("/catalog")
-public class CatalogController {
+@RequestMapping("/admin")
+public class AdminController {
+
 	private CatalogService catalogService;
 
 	@Inject
@@ -50,7 +50,7 @@ public class CatalogController {
 		List<Product> productList = catalogService.getProducts();
 		model.addAttribute("productList", productList);
 		model.addAttribute("selectedProducts", new Items());
-		return new ModelAndView("catalog/adminHome");
+		return new ModelAndView("admin/adminHome");
 	}
 
 	// VIEW PRODUCT DETAILS
@@ -60,7 +60,7 @@ public class CatalogController {
 		System.out.println("======= in productView");
 		Product product = catalogService.getProduct(productId);
 		model.addAttribute("product", product);
-		return new ModelAndView("catalog/viewProduct");
+		return new ModelAndView("admin/viewProduct");
 	}
 
 	// ADD PRODUCT
@@ -70,7 +70,7 @@ public class CatalogController {
 	public String addProduct(Model model) {
 		System.out.println("======= in addProduct");
 		model.addAttribute(new Product(0, getCatalog().getCatalogId(), "", "", 0, ""));
-		return "catalog/addProduct";
+		return "admin/addProduct";
 	}
 
 	// After submitting Add Product Form
@@ -78,12 +78,12 @@ public class CatalogController {
 	public String addProductSave(@Valid Product product, BindingResult bindingResult) {
 		System.out.println("======= in addProductSave");
 		if (bindingResult.hasErrors()) {
-			return "catalog/addProduct";
+			return "admin/addProduct";
 		}
 		System.out.println("Got product: " + product);
 		product.setCatalogId(getCatalog().getCatalogId());
 		catalogService.addProduct(product);
-		return "redirect:/catalog/admin.html";
+		return "redirect:/admin/admin.html";
 	}
 
 	// EDIT PRODUCT
@@ -93,17 +93,17 @@ public class CatalogController {
 		System.out.println("======= in editProduct");
 		Product product = catalogService.getProduct(productId);
 		model.addAttribute("product", product);
-		return "catalog/editProduct";
+		return "admin/editProduct";
 	}
 
 	@RequestMapping(value = "/edit/{productId}", method = RequestMethod.POST)
 	public String editProductSave(@PathVariable int productId, @Valid Product product, BindingResult bindingResult) {
 		System.out.println("======= in editProductSave");
 		if (bindingResult.hasErrors()) {
-			return "catalog/editProduct";
+			return "admin/editProduct";
 		}
 		catalogService.editProduct(product);
-		return "redirect:/catalog/admin.html";
+		return "redirect:/admin/admin.html";
 	}
 
 	// DELETE PRODUCTS
@@ -117,7 +117,7 @@ public class CatalogController {
 			int productId = Integer.parseInt(productIdStr);
 			catalogService.deleteProduct(productId);
 		}
-		return "redirect:/catalog/admin.html";
+		return "redirect:/admin/admin.html";
 	}
 
 	private Catalog getCatalog() {
@@ -136,30 +136,6 @@ public class CatalogController {
 			catalogService.addCatalog(catalog);
 		}
 		return catalog;
-	}
-
-	// ===================================================
-	// ===================== Buyer =======================
-	// ===================================================
-
-	// VIEW LIST OF AVAILABLE PRODUCTS
-
-	@RequestMapping("/shop")
-	public ModelAndView buyerHome(Model model) {
-		System.out.println("======= in buyerHome");
-		List<Product> productList = catalogService.getAvailableProducts();
-		model.addAttribute("productList", productList);
-		model.addAttribute("selectedProducts", new Items());
-		return new ModelAndView("catalog/buyerHome");
-	}
-
-	// VIEW LIST OF AVAILABLE PRODUCTS
-
-	@RequestMapping("/orderConfirmation")
-	public ModelAndView orderConfirmation(@ModelAttribute Order order, Model model) {
-		System.out.println("======= in orderConfirmation: Order" + order);
-		model.addAttribute("order", order);
-		return new ModelAndView("catalog/buyerHome");
 	}
 
 }
