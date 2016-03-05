@@ -12,13 +12,14 @@
 
     <http auto-config="true"> 
         <intercept-url pattern="/admin/**" access="ROLE_ADMIN" /> 
+        <intercept-url pattern="/buyer/**" access="ROLE_USER" /> 
     </http> 
  
  	<authentication-manager>
 	   <authentication-provider>
 	       <user-service>
 		       <user name="john" password="1111" authorities="ROLE_USER" />
-		       <user name="admin" password="1111" authorities="ROLE_ADMIN" />
+		       <user name="admin" password="1111" authorities="ROLE_ADMIN,ROLE_USER" />
 	       </user-service>
 	   </authentication-provider>
 	</authentication-manager>
