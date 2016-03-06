@@ -7,7 +7,8 @@
     <title>Add Product</title>
 </head>
 <body>
-    Add New Product:
+	<jsp:include page="../common/header.jsp" />
+    <h1>Add New Product</h1>
 <br>
 <sf:form method="POST" modelAttribute="product">
 <table border="0">

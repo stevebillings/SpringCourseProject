@@ -6,8 +6,9 @@
 <title>Shop</title>
 </head>
 <body>
+	<jsp:include page="../common/header.jsp" />
 	<h1>Shop</h1>
-	Products:
+	<h2>Products</h2>
 	<sf:form method="POST" commandName="selectedProducts" action="../buyer/createOrder.html">
 		<table>
 		<tr>

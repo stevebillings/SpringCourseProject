@@ -6,8 +6,9 @@
 <title>Administration</title>
 </head>
 <body>
+	<jsp:include page="../common/header.jsp" />
 	<h1>Catalog Administration</h1>
-	Products:<br><br>
+	<h2>Products:</h2>
 	<sf:form method="POST" commandName="selectedProducts" action="delete.html">
 		<table border="0">
 		<tr>

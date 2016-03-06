@@ -6,6 +6,7 @@
 <title>View Order</title>
 </head>
 <body>
+	<jsp:include page="../common/header.jsp" />
 	<h1>View Order</h1>
 	Order #: <c:out value="${order.orderId}" /> for user: <c:out value="${order.user}" /><br>
 	Order date: <c:out value="${order.orderCreated}" />

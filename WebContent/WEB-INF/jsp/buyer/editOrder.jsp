@@ -6,6 +6,7 @@
 <title>Edit Order</title>
 </head>
 <body>
+	<jsp:include page="../common/header.jsp" />
 	<h1>Edit Order</h1>
 	Order #: <c:out value="${order.orderId}" /> for User: <c:out value="${order.user}" /><br><br>
 	Order items:<br><br>

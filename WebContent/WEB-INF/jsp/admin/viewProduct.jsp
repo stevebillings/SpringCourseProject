@@ -5,8 +5,8 @@
     <title>View Product</title>
 </head>
 <body>
-    Product Details:
-<br>
+	<jsp:include page="../common/header.jsp" />
+    <h1>Product Details</h1>
 <table border="0">
 	<tr> 
 		<th align="left">Product Id:</th>

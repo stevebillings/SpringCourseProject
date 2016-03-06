@@ -6,8 +6,9 @@
 <title>Manage Orders</title>
 </head>
 <body>
+	<jsp:include page="../common/header.jsp" />
 	<h1>Manage Orders</h1>
-	Orders:<br><br>
+	<h2>Orders:</h2>
 
 		<table border="0">
 		<tr>

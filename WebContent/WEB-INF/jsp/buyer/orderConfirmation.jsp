@@ -5,7 +5,8 @@
     <title>Order Confirmation</title>
 </head>
 <body>
-    Order Confirmation for Order ID: <c:out value="${order.orderId}" /><br>
+	<jsp:include page="../common/header.jsp" />
+    <h1>Order Confirmation for Order ID: <c:out value="${order.orderId}" /></h1>
     Confirmation Number: <c:out value="${order.confirmNumber}" />
 <br><br>
 <table border="0">

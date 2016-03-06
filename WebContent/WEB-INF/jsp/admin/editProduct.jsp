@@ -7,8 +7,8 @@
     <title>Edit Product</title>
 </head>
 <body>
-    Edit Product Details:
-<br>
+	<jsp:include page="../common/header.jsp" />
+    <h1>Edit Product Details</h1>
 <sf:form method="POST" modelAttribute="product">
 <table border="0">
 	<tr> 
